@@ -5,8 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/images/apple-touch-icon.png"
+    />
+    <link
       rel="icon"
-      type="image/x-icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
       href="./assets/images/favicon-16x16.png"
     />
     <link rel="stylesheet" href="style.css" />
@@ -18,18 +30,22 @@
         <img class="header__logo" src="./assets/images/bmi.png" alt="logo" />
         <h1 class="header__title">Bmi kalkulator</h1>
       </div>
-      <form id="bmi">
+      <form id="bmi" method="POST">
         <div class="gender">
           <h6 class="subtitle">Płeć</h6>
           <div class="gender__content">
             <label
-              ><input type="radio" name="gender" id="male" value="0" /><img
+              ><input type="radio" name="gender" id="male" value="male" /><img
                 class="gender__image"
                 src="./assets/images/man.png"
                 alt="mężczyzna"
             /></label>
             <label
-              ><input type="radio" name="gender" id="female" value="1" /><img
+              ><input
+                type="radio"
+                name="gender"
+                id="female"
+                value="female" /><img
                 class="gender__image"
                 src="./assets/images/woman.png"
                 alt="kobieta"
@@ -41,27 +57,27 @@
             <h6 class="subtitle">Wzrost</h6>
             <div class="height__content">
               <label for="height" class="height__label"
-                ><span class="height__input--output">150</span> cm</label
+                ><span class="height__input--output"></span> cm</label
               >
               <input
-                id="height"
-                class="height__input"
+                id="height__input"
                 type="range"
                 min="50"
                 max="250"
                 value="0"
                 step="1"
+                required
               />
             </div>
           </div>
           <div class="weight">
             <h6 class="subtitle">Waga</h6>
-            <select name="weight" id="weight">
+            <select name="weight" id="">
               <option value="kg">kg</option>
               <option value="lb">lb</option>
             </select>
             <div class="weight__content">
-              <input id="weight__input" type="number" min="1" />
+              <input id="weight__input" type="number" min="1" required />
               <div>
                 <button class="btn__minus weightDown">-</button>
                 <button class="btn__plus weightUp">+</button>
@@ -71,7 +87,7 @@
           <div class="age">
             <h6 class="subtitle">Wiek</h6>
             <div class="age__content">
-              <input type="number" min="1" class="age__input" />
+              <input type="number" min="1" max="120" id="age__input" required />
               <div>
                 <button class="btn__minus ageDown">-</button>
                 <button class="btn__plus ageUp">+</button>
@@ -79,14 +95,15 @@
             </div>
           </div>
 
-          <button class="btn">Oblicz BMI</button>
+          <button class="btn" type="submit">Oblicz BMI</button>
         </div>
       </form>
       <div class="results">
-        <p>Twoje BMI wynosi<span class="results__bmi"></span></p>
+        <p>Twoje BMI wynosi <span class="results__bmi"></span></p>
         <p>Twój wzrost <span class="results__height"></span></p>
         <p>Twoja waga <span class="results__weight"></span></p>
         <p>Twój wiek <span class="results__age"></span></p>
+        <p>Twój płeć <span class="results__gender"></span></p>
       </div>
     </div>
     <!-- <a href="https://www.flaticon.com/free-icons/bmi" title="bmi icons">Bmi icons created by Freepik - Flaticon</a> -->
