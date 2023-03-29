@@ -72,12 +72,18 @@
           </div>
           <div class="weight">
             <h6 class="subtitle">Waga</h6>
-            <select name="weight" id="">
+            <select name="weight" id="measureWeight">
               <option value="kg">kg</option>
               <option value="lb">lb</option>
             </select>
             <div class="weight__content">
-              <input id="weight__input" type="number" min="1" required />
+              <input
+                id="weight__input"
+                type="number"
+                min="0"
+                max="500"
+                required
+              />
               <div>
                 <button class="btn__minus weightDown">-</button>
                 <button class="btn__plus weightUp">+</button>
@@ -87,7 +93,7 @@
           <div class="age">
             <h6 class="subtitle">Wiek</h6>
             <div class="age__content">
-              <input type="number" min="1" max="120" id="age__input" required />
+              <input type="number" min="0" max="120" id="age__input" required />
               <div>
                 <button class="btn__minus ageDown">-</button>
                 <button class="btn__plus ageUp">+</button>
@@ -99,7 +105,10 @@
         </div>
       </form>
       <div class="results">
-        <p>Twoje BMI wynosi <span class="results__bmi"></span></p>
+        <p>
+          Twój wskaźnik BMI wynosi: <span class="results__bmi"></span>
+          <span class="results__bmi--description"></span>
+        </p>
         <p>Twój wzrost <span class="results__height"></span></p>
         <p>Twoja waga <span class="results__weight"></span></p>
         <p>Twój wiek <span class="results__age"></span></p>
