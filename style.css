@@ -14,6 +14,7 @@ body {
   font-family: "Karla", sans-serif;
   background: #232323;
   color: #fff;
+  overflow-x: hidden;
 }
 input,
 select,
@@ -22,26 +23,58 @@ button {
 }
 .container {
   width: 1240px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+#calculator {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
-  margin: 0 auto;
 }
+
+.hidden {
+  display: none;
+}
+
+.info {
+  margin-left: 5px;
+  width: 85%;
+}
+
+.info__form {
+  display: flex;
+  gap: 5px;
+  margin: 15px 0 30px 0;
+}
+
+.info__form-adult,
+.info__form-child {
+  position: relative;
+  padding: 10px 20px;
+  background-color: #282b28;
+  border: 1px solid #282b28;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 .header {
   grid-area: 1 / 1 / 2 / 3;
   display: flex;
   align-items: center;
-  margin: 0 0 25px 0;
+  margin: 25px 0;
 }
 .header__logo {
+  width: 100px;
+  height: 100px;
   margin: 0 30px 0 0;
 }
-#bmi {
+form {
   grid-area: 2 / 1 / 3 / 2;
 }
 .results {
   width: 90%;
-  margin: 0 auto;
+  margin-left: 10%;
   padding: 50px 15px;
   grid-area: 2 / 2 / 3 / 3;
   align-self: center;
@@ -49,10 +82,12 @@ button {
 
   background: #3e5641;
   border-radius: 20px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
 .header h1 {
-  font-size: 64px;
+  font-size: 48px;
   text-transform: uppercase;
 }
 .subtitle {
@@ -62,9 +97,21 @@ button {
 
   margin: 15px 0 30px 0;
 }
+
+.subtitle span {
+  font-size: 16px;
+  text-transform: lowercase;
+}
+
+.age__subtitle {
+  margin: 15px 0 18px 0;
+}
+
 .gender__content {
   display: flex;
   justify-content: space-evenly;
+  border-radius: 20px;
+  padding: 15px 0;
 }
 .data {
   display: grid;
@@ -76,18 +123,38 @@ button {
 }
 .weight {
   grid-area: 2 / 1 / 3 / 2;
+  /* position: relative; */
+}
 
+.weight-adult {
+  grid-area: 2 / 1 / 3 / 3;
+}
+
+.weight__inputs {
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   position: relative;
 }
-.weight__content,
-.age__content {
+
+.weight__inputs {
   padding: 20px 0 0 0;
 }
+
+.age__inputs {
+  padding-bottom: 20px;
+}
+
 .weight select {
   width: 55px;
   position: absolute;
+  top: -12px;
+  right: 8px;
+  /* position: absolute;
   right: 95px;
-  top: 55px;
+  top: 55px; */
   border-radius: 12px;
 }
 .age {
@@ -103,8 +170,9 @@ button {
   border-radius: 20px;
   color: #fff;
   text-transform: uppercase;
+  cursor: pointer;
 }
-.height__content {
+.height__inputs {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -112,11 +180,13 @@ button {
 .height__label {
   font-size: 22px;
 }
-.height__input--output {
-  font-size: 48px;
+.height__output--adult,
+.height__output--child {
+  font-size: 36px;
   font-weight: 500;
 }
-#height__input {
+#heightAdult,
+#heightChild {
   width: 80%;
 
   margin: 20px 0 40px 0px;
@@ -125,8 +195,8 @@ button {
 .age__content {
   text-align: center;
 }
-.btn__minus,
-.btn__plus {
+.btn__decrease,
+.btn__increase {
   width: 55px;
   height: 34px;
   margin: 0 1px;
@@ -135,6 +205,11 @@ button {
   font-size: 16px;
   border-radius: 12px;
   border: none;
+  cursor: pointer;
+}
+
+.btn__decrease:disabled {
+  opacity: 0.5;
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -158,6 +233,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 input[type="number"],
+input[type="date"],
 select {
   text-align: center;
   border: none;
@@ -165,11 +241,24 @@ select {
   background-color: #282b28;
   color: #c2cdca;
 }
-input[type="radio"] {
+input[type="date"] {
+  padding: 10px 20px;
+  font-size: 15px;
+  color: #c2cdca;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: url("https://cdn-icons-png.flaticon.com/128/10691/10691802.png");
+  margin-top: -2px;
+  width: 15px;
+  height: 15px;
+}
+input[name="gender"] {
   position: relative;
   bottom: 126px;
   left: 137px;
 }
+
 .gender img {
   padding: 12px;
 }
@@ -215,32 +304,67 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 39px;
   font-weight: 700;
 }
-
+@media (max-width: 1350px) {
+  .results {
+    margin: 20px auto;
+  }
+}
 @media (max-width: 1240px) {
   .container {
-    width: 100vw;
-    /* padding: 30px; */
+    width: calc(100% - 60px);
+    padding: 30px;
+  }
+  .header {
+    margin: 0 0 25px;
   }
   .header h1 {
     font-size: 48px;
   }
   .header__logo {
     width: 80px;
+    height: 80px;
   }
-  #bmi {
+  form {
     grid-area: 2 / 1 / 3 / 3;
     width: 800px;
     margin: 0 auto;
   }
-  /* zmienić na modal!!!!! */
+  #calculator {
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: repeat(fit-content, 1fr);
+  }
   .results {
-    display: none;
+    grid-area: 1 / 1 / 2 / 3;
+    width: 85%;
   }
 }
 
 @media (max-width: 991px) {
-  #bmi {
-    width: calc(100vw - 30px);
-    padding: 30px 15px;
+  .container {
+    width: calc(100% - 20px);
+    padding: 10px;
+  }
+  .header h1 {
+    font-size: 32px;
+  }
+  .header__logo {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 850px) {
+  form {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .gender img {
+    width: 64px;
+    height: 64px;
+  }
+  input[name="gender"] {
+    bottom: 70px;
+    left: 86px;
   }
 }
