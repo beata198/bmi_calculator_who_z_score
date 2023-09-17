@@ -23,6 +23,7 @@
     />
     <link rel="stylesheet" href="style.css" />
     <title>BMI Kalkulator</title>
+    <script defer src="script.js"></script>
   </head>
   <body>
     <div class="container">
@@ -30,95 +31,159 @@
         <img class="header__logo" src="./assets/images/bmi.png" alt="logo" />
         <h1 class="header__title">Bmi kalkulator</h1>
       </div>
-      <form id="bmi" method="POST">
-        <div class="gender">
-          <h6 class="subtitle">Płeć</h6>
-          <div class="gender__content">
-            <label
-              ><input type="radio" name="gender" id="male" value="male" /><img
-                class="gender__image"
-                src="./assets/images/man.png"
-                alt="mężczyzna"
-            /></label>
-            <label
-              ><input
-                type="radio"
-                name="gender"
-                id="female"
-                value="female" /><img
-                class="gender__image"
-                src="./assets/images/woman.png"
-                alt="kobieta"
-            /></label>
-          </div>
-        </div>
-        <div class="data">
-          <div class="height">
-            <h6 class="subtitle">Wzrost</h6>
-            <div class="height__content">
-              <label for="height" class="height__label"
-                ><span class="height__input--output"></span> cm</label
-              >
-              <input
-                id="height__input"
-                type="range"
-                min="50"
-                max="250"
-                value="0"
-                step="1"
-                required
-              />
-            </div>
-          </div>
-          <div class="weight">
-            <h6 class="subtitle">Waga</h6>
-            <select name="weight" id="measureWeight">
-              <option value="kg">kg</option>
-              <option value="lb">lb</option>
-            </select>
-            <div class="weight__content">
-              <input
-                id="weight__input"
-                type="number"
-                min="0"
-                max="500"
-                required
-              />
-              <div>
-                <button class="btn__minus weightDown">-</button>
-                <button class="btn__plus weightUp">+</button>
-              </div>
-            </div>
-          </div>
-          <div class="age">
-            <h6 class="subtitle">Wiek</h6>
-            <div class="age__content">
-              <input type="number" min="0" max="120" id="age__input" required />
-              <div>
-                <button class="btn__minus ageDown">-</button>
-                <button class="btn__plus ageUp">+</button>
-              </div>
-            </div>
-          </div>
-
-          <button class="btn" type="submit">Oblicz BMI</button>
-        </div>
-      </form>
-      <div class="results">
-        <p>
-          Twój wskaźnik BMI wynosi: <span class="results__bmi"></span>
-          <span class="results__bmi--description"></span>
+      <div class="info">
+        <p class="info__description">
+          Witaj w kalkulatorze BMI! Kalkulator BMI to narzędzie, które pozwala
+          użytkownikom obliczyć swoje wskaźniki masy ciała (BMI) i dostarcza
+          dodatkowe informacje zależne od wieku. Aplikacja oferuje osobne
+          formularze dla dorosłych i dzieci w wieku 2-19 lat. Domyślnie wybrany
+          jest kalkulator dla dorosłych. <br /><br />Dla dzieci w wieku 2-19
+          lat, aplikacja oblicza BMI i dodatkowo oblicza z-score. Z-score
+          pozwala użytkownikom zrozumieć, jakie jest miejsce ich dziecka w
+          stosunku do innych dzieci w tym samym wieku i płci pod względem masy
+          ciała. Wyższy lub niższy z-score może sugerować, że dziecko ma wyższą
+          lub niższą masę ciała niż przeciętne dziecko w jego wieku i płci.
         </p>
-        <p>Twój wzrost <span class="results__height"></span></p>
-        <p>Twoja waga <span class="results__weight"></span></p>
-        <p>Twój wiek <span class="results__age"></span></p>
-        <p>Twój płeć <span class="results__gender"></span></p>
+        <div class="info__form">
+          <label class="info__form-adult">
+            <input type="radio" name="info" value="adult" checked /> Dorosły
+          </label>
+          <label class="info__form-child">
+            <input type="radio" name="info" value="child" /> Dziecko
+          </label>
+        </div>
+      </div>
+
+      <div id="calculator">
+        <form id="bmi-adult" method="POST">
+          <div class="data">
+            <div class="height">
+              <h6 class="height__subtitle subtitle">Wzrost</h6>
+              <div class="height__inputs">
+                <label for="height" class="height__label"
+                  ><span class="height__output--adult"></span
+                ></label>
+                <input
+                  id="heightAdult"
+                  type="range"
+                  min="50"
+                  max="250"
+                  value="0"
+                  step="1"
+                  required
+                />
+              </div>
+            </div>
+            <div class="weight weight-adult">
+              <h6 class="weight__subtitle subtitle">Waga</h6>
+              <div class="weight__inputs">
+                <select name="weight" id="measureWeightAdult">
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+                <input
+                  id="weightAdult"
+                  type="number"
+                  min="0"
+                  max="500"
+                  required
+                />
+                <div>
+                  <button class="btn__decrease decreaseWeightAdult" disabled>
+                    -
+                  </button>
+                  <button class="btn__increase increaseWeightAdult">+</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-adult" type="submit">Oblicz BMI</button>
+          </div>
+        </form>
+        <form id="bmi-child" class="hidden" method="POST">
+          <div class="gender">
+            <h6 class="gender__subtitle subtitle">Płeć</h6>
+            <div class="gender__content">
+              <label
+                ><input type="radio" name="gender" id="male" value="male" /><img
+                  class="gender__image"
+                  src="./assets/images/boy.png"
+                  alt="mężczyzna"
+              /></label>
+              <label
+                ><input
+                  type="radio"
+                  name="gender"
+                  id="female"
+                  value="female" /><img
+                  class="gender__image"
+                  src="./assets/images/girl.png"
+                  alt="kobieta"
+              /></label>
+            </div>
+          </div>
+          <div class="data">
+            <div class="height">
+              <h6 class="height__subtitle subtitle">Wzrost</h6>
+              <div class="height__inputs">
+                <label for="height" class="height__label"
+                  ><span class="height__output--child"></span
+                ></label>
+                <input
+                  id="heightChild"
+                  type="range"
+                  min="50"
+                  max="250"
+                  value="0"
+                  step="1"
+                  required
+                />
+              </div>
+            </div>
+            <div class="weight">
+              <h6 class="weight__subtitle-child subtitle">Waga</h6>
+              <div class="weight__inputs">
+                <select name="weight" id="measureWeightChild">
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+                <input
+                  id="weightChild"
+                  type="number"
+                  min="0"
+                  max="500"
+                  required
+                />
+                <div>
+                  <button class="btn__decrease decreaseWeightChild" disabled>
+                    -
+                  </button>
+                  <button class="btn__increase increaseWeightChild">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="age">
+              <h6 class="age__subtitle subtitle">
+                Wiek<span> (data urodzenia)</span>
+              </h6>
+              <div class="age__inputs">
+                <input type="date" id="age__input" required />
+              </div>
+              <h6 class="age__subtitle subtitle">Data pomiaru</h6>
+              <div class="age__inputs">
+                <input type="date" id="date__input" required />
+              </div>
+            </div>
+
+            <button class="btn btn-child" type="submit">Oblicz BMI</button>
+          </div>
+        </form>
       </div>
     </div>
-    <!-- <a href="https://www.flaticon.com/free-icons/bmi" title="bmi icons">Bmi icons created by Freepik - Flaticon</a> -->
-    <!-- <a href="https://www.flaticon.com/free-icons/person" title="person icons"
-        >Person icons created by Freepik - Flaticon</a
-      > -->
-    <script src="script.js"></script>
-  </body>
+    <!-- <a href="https://www.flaticon.com/free-icons/bmi" title="bmi icons">Bmi icons created by Freepik - Flaticon</a> 
+      <a href="https://www.flaticon.com/free-icons/young" title="young icons">Young icons created by Freepik - Flaticon</a> 
+    <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons">Calendar icons created by pojok d - Flaticon</a>
+  <a href="https://www.flaticon.com/free-icons/help" title="help icons">Help icons created by Freepik - Flaticon</a> 
+  
+  --></body>
 </html>
